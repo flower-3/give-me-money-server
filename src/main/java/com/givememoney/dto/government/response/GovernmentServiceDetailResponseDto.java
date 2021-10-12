@@ -1,9 +1,9 @@
-package com.givememoney.dto.government;
+package com.givememoney.dto.government.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GovernmentServiceDetailDto {
-    private GovernmentServiceDetailDto(){}
+public class GovernmentServiceDetailResponseDto {
+    private GovernmentServiceDetailResponseDto(){}
 
     @JsonProperty("SVC_ID")
     private String svcId;

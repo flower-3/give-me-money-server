@@ -1,12 +1,12 @@
-package com.givememoney.dto.government;
+package com.givememoney.dto.government.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class GovernmentServiceDto {
+public class GovernmentServiceResponseDto {
 
-    private GovernmentServiceDto(){ }
+    private GovernmentServiceResponseDto(){ }
     @JsonProperty("서비스ID")
     private String id;
     @JsonProperty("지원유형")
