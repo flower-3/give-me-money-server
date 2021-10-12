@@ -5,9 +5,9 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class GovernmentServiceListResponseDto {
+public class ServiceListResDto {
     private int currentCount;
-    private List<GovernmentServiceResponseDto> data;
+    private List<ServiceResDto> data;
     private int matchCount;
     private int page;
     private int perPage;

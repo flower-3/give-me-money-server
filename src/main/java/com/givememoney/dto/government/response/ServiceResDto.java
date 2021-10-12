@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class GovernmentServiceResponseDto {
+public class ServiceResDto {
 
-    private GovernmentServiceResponseDto(){ }
+    private ServiceResDto(){ }
     @JsonProperty("서비스ID")
     private String id;
     @JsonProperty("지원유형")
