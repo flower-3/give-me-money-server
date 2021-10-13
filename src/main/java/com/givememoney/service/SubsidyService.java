@@ -3,9 +3,7 @@ package com.givememoney.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.givememoney.dto.government.request.GovernmentServiceListRequestDto;
 import com.givememoney.dto.government.response.ServiceDetailListResDto;
-import com.givememoney.dto.government.response.ServiceDetailResDto;
 import com.givememoney.dto.government.response.ServiceListResDto;
-import com.givememoney.util.MultiValueMapConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Optional;
 
 @Service
 public class SubsidyService {
@@ -40,18 +36,18 @@ public class SubsidyService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         MultiValueMap<String, String> requestBodys =
-                MultiValueMapConverter.convert(objectMapper, requestDto);
+                new LinkedMultiValueMap<>();
 
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
-
+        serviceListUrl+="?page="+requestDto.getPage();
+        serviceListUrl+="&perPage="+requestDto.getPerPage();
         ResponseEntity<ServiceListResDto> responseEntity = restTemplate.exchange(
                 serviceListUrl,
                 HttpMethod.GET,
                 requestEntity,
                 ServiceListResDto.class
         );
-
 
         return responseEntity.getBody();
     }
@@ -61,14 +57,13 @@ public class SubsidyService {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("accept","application/json");
-        requestHeaders.add("Content-type", "application/json");
         requestHeaders.add("Authorization", "Infuser "+decodedKey);
 
         MultiValueMap<String, String> requestBodys = new LinkedMultiValueMap<>();
-        requestBodys.add("cond", serviceId);
+
+        serviceDetailUrl+="?cond[SVC_ID::EQ]="+serviceId;
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
-
         ResponseEntity<ServiceDetailListResDto> responseEntity = restTemplate.exchange(
                 serviceDetailUrl,
                 HttpMethod.GET,

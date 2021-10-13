@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.givememoney.dto.government.request.GovernmentServiceListRequestDto;
 import com.givememoney.dto.government.response.ServiceDetailListResDto;
 import com.givememoney.dto.government.response.ServiceListResDto;
-import com.givememoney.util.MultiValueMapConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ class SubsidyServiceTest {
     private String serviceId;
     @BeforeEach
     void setUp() {
-        requestDto = new GovernmentServiceListRequestDto(1,10);
+        requestDto = new GovernmentServiceListRequestDto(1,5);
         serviceId = "000000465790";
     }
 
@@ -53,7 +52,7 @@ class SubsidyServiceTest {
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
         serviceListUrl+="?page="+requestDto.getPage();
-        serviceListUrl+="?perPage="+requestDto.getPerPage();
+        serviceListUrl+="&perPage="+requestDto.getPerPage();
         ResponseEntity<ServiceListResDto> responseEntity = restTemplate.exchange(
                 serviceListUrl,
                 HttpMethod.GET,
@@ -61,7 +60,7 @@ class SubsidyServiceTest {
                 ServiceListResDto.class
         );
 
-        assert responseEntity.getBody().getData().size() == 10;
+        assert responseEntity.getBody().getData().size() == 5;
     }
 
     @DisplayName("서비스 세부내역 조회 정합성 및 dto값 세팅 확인")
