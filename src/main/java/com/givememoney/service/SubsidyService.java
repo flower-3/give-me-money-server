@@ -75,17 +75,7 @@ public class SubsidyService {
                 requestEntity,
                 ServiceDetailListResDto.class
         );
-        containRequestService(serviceId, responseEntity.getBody());
         return responseEntity.getBody();
     }
 
-
-    private void containRequestService(String serviceId, ServiceDetailListResDto resDto){
-        if(resDto.getData().size()==0){
-            resDto.setHasRequestValue(false);
-            return;
-        }
-        boolean hasRequestServiceId = serviceId.equals(resDto.getData().get(0).getSvcId()) == true;
-        resDto.setHasRequestValue(hasRequestServiceId);
-    }
 }

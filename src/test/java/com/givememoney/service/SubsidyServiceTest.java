@@ -48,11 +48,12 @@ class SubsidyServiceTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         MultiValueMap<String, String> requestBodys =
-                MultiValueMapConverter.convert(objectMapper, requestDto);
+                new LinkedMultiValueMap<>();
 
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
-
+        serviceListUrl+="?page="+requestDto.getPage();
+        serviceListUrl+="?perPage="+requestDto.getPerPage();
         ResponseEntity<ServiceListResDto> responseEntity = restTemplate.exchange(
                 serviceListUrl,
                 HttpMethod.GET,
@@ -73,7 +74,8 @@ class SubsidyServiceTest {
         requestHeaders.add("Authorization", "Infuser "+decodedKey);
 
         MultiValueMap<String, String> requestBodys = new LinkedMultiValueMap<>();
-        requestBodys.add("cond", serviceId);
+
+        serviceDetailUrl+=String.format("?cond[SVC_ID::EQ]="+serviceId);
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
         ResponseEntity<ServiceDetailListResDto> responseEntity = restTemplate.exchange(
@@ -83,17 +85,7 @@ class SubsidyServiceTest {
                 ServiceDetailListResDto.class
         );
         ServiceDetailListResDto serviceDetailListResDto = responseEntity.getBody();
-        containRequestService(serviceId, serviceDetailListResDto);
-        assert serviceDetailListResDto.getHasRequestValue();
         assert serviceDetailListResDto.getData().get(0).getContactNumber().equals("129");
     }
 
-    private void containRequestService(String serviceId, ServiceDetailListResDto resDto){
-        if(resDto.getData().size()==0){
-            resDto.setHasRequestValue(false);
-            return;
-        }
-        boolean hasRequestServiceId = serviceId.equals(resDto.getData().get(0).getSvcId()) == true;
-        resDto.setHasRequestValue(hasRequestServiceId);
-    }
 }
