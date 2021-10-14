@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/give_me_money?serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      generate-ddl: true
+      ddl-auto: update
+      format_sql: true
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          use_sql_comments: true
+
+#spring:
+#  datasource:
+#    url: jdbc:h2:mem:default
+#    username: sa
+#    password: 1234
+#    driver-class-name: org.h2.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      generate-ddl: true
+#      ddl-auto: update
+#      show-sql: true
+#      properties:
+#        hibernate:
+#          format_sql: true
+#
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#
+oauth:
+  government:
+    encoded_key: YLTTgUfmOfMGuGkCxg1LZQb3tljVW92PPi4WbkEfM0tiFijsEt82PwYHIZnbhzqHXvMP2nCFTIS%2BsKF5Aslrxw%3D%3D #바디
+    decoded_key: YLTTgUfmOfMGuGkCxg1LZQb3tljVW92PPi4WbkEfM0tiFijsEt82PwYHIZnbhzqHXvMP2nCFTIS+sKF5Aslrxw== #헤더
+    service_list_url: https://api.odcloud.kr/api/gov24/v1/serviceList
+    service_detail_url: https://api.odcloud.kr/api/gov24/v1/serviceDetail
+    support_conditions_url: https://api.odcloud.kr/api/gov24/v1/support_conditions
