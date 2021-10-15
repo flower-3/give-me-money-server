@@ -40,10 +40,9 @@ public class SubsidyService {
 
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
-        serviceListUrl+="?page="+requestDto.getPage();
-        serviceListUrl+="&perPage="+requestDto.getPerPage();
+
         ResponseEntity<ServiceListResDto> responseEntity = restTemplate.exchange(
-                serviceListUrl,
+                String.format(serviceListUrl+"?page=%s&perPage=%s",requestDto.getPage(),requestDto.getPerPage()),
                 HttpMethod.GET,
                 requestEntity,
                 ServiceListResDto.class
@@ -61,11 +60,10 @@ public class SubsidyService {
 
         MultiValueMap<String, String> requestBodys = new LinkedMultiValueMap<>();
 
-        serviceDetailUrl+="?cond[SVC_ID::EQ]="+serviceId;
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
         ResponseEntity<ServiceDetailListResDto> responseEntity = restTemplate.exchange(
-                serviceDetailUrl,
+                String.format(serviceDetailUrl+"?cond[SVC_ID::EQ]=%s",serviceId),
                 HttpMethod.GET,
                 requestEntity,
                 ServiceDetailListResDto.class
