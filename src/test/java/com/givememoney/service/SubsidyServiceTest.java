@@ -13,11 +13,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-
+@ActiveProfiles("local")
 @SpringBootTest
 class SubsidyServiceTest {
 
@@ -51,10 +52,9 @@ class SubsidyServiceTest {
 
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
-        serviceListUrl+="?page="+requestDto.getPage();
-        serviceListUrl+="&perPage="+requestDto.getPerPage();
+
         ResponseEntity<ServiceListResDto> responseEntity = restTemplate.exchange(
-                serviceListUrl,
+                String.format(serviceListUrl+"?page=%s&perPage=%s",requestDto.getPage(),requestDto.getPerPage()),
                 HttpMethod.GET,
                 requestEntity,
                 ServiceListResDto.class
@@ -73,12 +73,10 @@ class SubsidyServiceTest {
         requestHeaders.add("Authorization", "Infuser "+decodedKey);
 
         MultiValueMap<String, String> requestBodys = new LinkedMultiValueMap<>();
-
-        serviceDetailUrl+=String.format("?cond[SVC_ID::EQ]="+serviceId);
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
         ResponseEntity<ServiceDetailListResDto> responseEntity = restTemplate.exchange(
-                serviceDetailUrl,
+                String.format(serviceDetailUrl+"?cond[SVC_ID::EQ]=%s",serviceId),
                 HttpMethod.GET,
                 requestEntity,
                 ServiceDetailListResDto.class
