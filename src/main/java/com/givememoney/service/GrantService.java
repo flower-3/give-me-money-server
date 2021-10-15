@@ -4,23 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.givememoney.dto.government.request.GovernmentServiceListRequestDto;
 import com.givememoney.dto.government.response.ServiceDetailListResDto;
 import com.givememoney.dto.government.response.ServiceListResDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@ActiveProfiles("local")
-@SpringBootTest
-class SubsidyServiceTest {
+@Service
+public class GrantService {
 
     @Value("${oauth.government.decoded_key}")
     private String decodedKey;
@@ -28,17 +23,10 @@ class SubsidyServiceTest {
     private String serviceListUrl;
     @Value("${oauth.government.service_detail_url}")
     private String serviceDetailUrl;
-    GovernmentServiceListRequestDto requestDto;
-    private String serviceId;
-    @BeforeEach
-    void setUp() {
-        requestDto = new GovernmentServiceListRequestDto(1,5);
-        serviceId = "000000465790";
-    }
+    @Value("${oauth.government.support_conditions_url}")
+    private String supportConditionsUrl;
 
-    @DisplayName("서비스 리스트 페이징 및 파싱 체크")
-    @Test
-    void getServiceList() {
+    public ServiceListResDto getServiceList(GovernmentServiceListRequestDto requestDto){
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -60,12 +48,10 @@ class SubsidyServiceTest {
                 ServiceListResDto.class
         );
 
-        assert responseEntity.getBody().getData().size() == 5;
+        return responseEntity.getBody();
     }
 
-    @DisplayName("서비스 세부내역 조회 정합성 및 dto값 세팅 확인")
-    @Test
-    void getServiceDetails() {
+    public ServiceDetailListResDto getServiceDetails(String serviceId){
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders requestHeaders = new HttpHeaders();
@@ -73,6 +59,7 @@ class SubsidyServiceTest {
         requestHeaders.add("Authorization", "Infuser "+decodedKey);
 
         MultiValueMap<String, String> requestBodys = new LinkedMultiValueMap<>();
+
         HttpEntity<MultiValueMap<String,String>> requestEntity =
                 new HttpEntity<MultiValueMap<String,String>>(requestBodys, requestHeaders);
         ResponseEntity<ServiceDetailListResDto> responseEntity = restTemplate.exchange(
@@ -81,8 +68,7 @@ class SubsidyServiceTest {
                 requestEntity,
                 ServiceDetailListResDto.class
         );
-        ServiceDetailListResDto serviceDetailListResDto = responseEntity.getBody();
-        assert serviceDetailListResDto.getData().get(0).getContactNumber().equals("129");
+        return responseEntity.getBody();
     }
 
 }
