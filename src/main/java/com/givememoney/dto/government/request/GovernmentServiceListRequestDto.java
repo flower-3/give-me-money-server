@@ -2,7 +2,6 @@ package com.givememoney.dto.government.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.validation.constraints.NotNull;
 

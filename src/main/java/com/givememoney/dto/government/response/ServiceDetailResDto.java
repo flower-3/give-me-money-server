@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 public class ServiceDetailResDto {
-    private ServiceDetailResDto(){}
+    private ServiceDetailResDto() {
+    }
 
     @JsonProperty("SVC_ID")
     private String svcId;

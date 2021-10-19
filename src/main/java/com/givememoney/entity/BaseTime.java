@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class) //JPA에게 해당 Entity는 Auditing기능을 사용한다는 것을 알리는 어노테이션입니다.
-public class BaseTime {
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseTime {
 
-    @CreatedDate
     @Column(updatable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
