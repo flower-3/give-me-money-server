@@ -1,6 +1,7 @@
 package com.givememoney.dto.common;
 
 import lombok.*;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 @Getter

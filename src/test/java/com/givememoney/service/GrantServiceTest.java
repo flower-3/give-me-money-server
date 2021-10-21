@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 @ActiveProfiles("local")
 @SpringBootTest
-class SubsidyServiceTest {
+class GrantServiceTest {
 
     @Value("${oauth.government.decoded_key}")
     private String decodedKey;
