@@ -11,6 +11,7 @@ import com.givememoney.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,6 +37,7 @@ public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    @Lazy
     private final TokenProvider tokenProvider;
 
     @Value("${oauth.kakao.client_id}")
