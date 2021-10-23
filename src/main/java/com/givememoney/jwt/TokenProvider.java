@@ -4,8 +4,8 @@ import com.givememoney.service.AuthService;
 import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,10 +32,13 @@ public class TokenProvider {
 
     public TokenProvider(
             @Value("${oauth.jwt.secret}") String secret,
-            @Value("${oauth.jwt.token-validity-in-seconds}") long tokenValidityInSeconds,
-            AuthService authService) {
+            @Value("${oauth.jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+    }
+
+    @Autowired
+    public void setUserService(AuthService authService) {
         this.authService = authService;
     }
 
@@ -43,6 +46,7 @@ public class TokenProvider {
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
+
 
     /*
      * createToken 메소드는 Authentication 객체에 포함되어 있는 권한 정보들을 담은 토큰을 생성
