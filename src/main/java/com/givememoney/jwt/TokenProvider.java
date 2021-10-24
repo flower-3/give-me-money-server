@@ -37,6 +37,7 @@ public class TokenProvider {
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
     }
 
+    /* Todo DI 의존관계 해결 생성자 주입으로 변경 */
     @Autowired
     public void setUserService(AuthService authService) {
         this.authService = authService;
