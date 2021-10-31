@@ -37,15 +37,17 @@ public class TokenProvider {
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
     }
 
+    /* Todo DI 의존관계 해결 생성자 주입으로 변경 */
+    @Autowired
+    public void setUserService(AuthService authService) {
+        this.authService = authService;
+    }
+
     @PostConstruct
     protected void init() {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    @Autowired
-    public void setUserService(AuthService authService) {
-        this.authService = authService;
-    }
 
     /*
      * createToken 메소드는 Authentication 객체에 포함되어 있는 권한 정보들을 담은 토큰을 생성
