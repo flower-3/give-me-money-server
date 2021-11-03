@@ -28,7 +28,6 @@ public class AuthController {
         String jwtToken = authService.getJwtByKakaoCode(code);
         Cookie cookie = new Cookie("Bearer", jwtToken);
         cookie.setMaxAge(60 * 60 * 24);
-        cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
         response.sendRedirect(clientUri);
