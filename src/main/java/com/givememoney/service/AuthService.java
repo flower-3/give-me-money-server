@@ -10,7 +10,9 @@ import com.givememoney.jwt.TokenProvider;
 import com.givememoney.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,7 +38,7 @@ public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    private final TokenProvider tokenProvider;
+    private TokenProvider tokenProvider;
 
     @Value("${oauth.kakao.client_id}")
     private String kakaoClientId;
@@ -46,7 +48,10 @@ public class AuthService implements UserDetailsService {
     private String kakaoAuthUri;
     @Value("${oauth.kakao.redirect_uri}")
     private String kakaoRedirectUri;
-
+    @Autowired
+    public void setTokenProvider(TokenProvider tokenProvider){
+        this.tokenProvider = tokenProvider;
+    }
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String userId) {
