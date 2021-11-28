@@ -18,7 +18,7 @@ public class GrantController {
 
     private final GrantService grantService;
 
-    @GetMapping("/gov24/v1/serviceList")
+    @GetMapping("/gov24/serviceList")
     public ResponseDto getServiceList(int page, int perPage) {
 
         GovernmentServiceListRequestDto requestDto = new GovernmentServiceListRequestDto(page, perPage);
@@ -30,7 +30,7 @@ public class GrantController {
                 .build();
     }
 
-    @GetMapping("/gov24/v1/serviceDetail")
+    @GetMapping("/gov24/serviceDetail")
     public ResponseDto getServiceDetail(String serviceId) {
         ServiceDetailListResDto responseDto = grantService.getServiceDetails(serviceId);
         return ResponseDto.builder()

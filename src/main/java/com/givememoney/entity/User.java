@@ -3,6 +3,7 @@ package com.givememoney.entity;
 import com.givememoney.constant.MedianIncome;
 import com.givememoney.dto.kakao.KakaoAccountDto;
 import com.givememoney.dto.kakao.KakaoUserResponseDto;
+import com.givememoney.dto.user.UserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -61,8 +62,29 @@ public class User extends BaseTime implements UserDetails {
 
     }
 
+    public UserResponseDto toUserDto(){
+        return UserResponseDto.builder()
+                                .birthday(this.birthday)
+                                .email(this.email)
+                                .gender(this.gender)
+                                .hasMultiChildren(this.hasMultiChildren)
+                                .userId(this.userId)
+                                .isPregnant(this.isPregnant)
+                                .isSick(this.isSick)
+                                .isWorker(this.isWorker)
+                                .medianIncome(this.medianIncome)
+                                .role(this.role)
+                                .provider(this.provider)
+                                .isFarmer(this.isFarmer)
+                                .id(this.id)
+                                .name(this.name)
+                                .phoneNumber(this.phoneNumber)
+                                .build();
+
+    }
+
     @PrePersist
-    public void perPersist() {
+    public void prePersist() {
         this.provider = Optional.ofNullable(this.provider).orElse("local");
         this.role = Optional.ofNullable(this.role).orElse("public");
         this.password = Optional.ofNullable(this.password).orElse("");
