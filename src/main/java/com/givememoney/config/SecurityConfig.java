@@ -5,6 +5,7 @@ import com.givememoney.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -33,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         web.ignoring().antMatchers("/v2/api-docs/**", "/configuration/ui/**", "/swagger-ui/**",
                 "/swagger-resources/**", "/configuration/security/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**", "/h2/**");
+                "/swagger-ui.html", "/webjars/**", "/swagger/**", "/h2/**","/api/v1/auth/**","/api/v1/gov24/**");
     }
 
     /**
@@ -51,9 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/auth/**").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
-                .antMatchers("/h2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(tokenProvider),

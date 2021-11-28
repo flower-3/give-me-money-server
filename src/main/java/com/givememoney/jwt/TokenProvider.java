@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
@@ -93,10 +94,7 @@ public class TokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        String bearerToken = Arrays.stream(request.getCookies()).filter(cookie -> "Bearer".equals(cookie.getName())).findFirst().get().getValue();
+        return bearerToken;
     }
 }

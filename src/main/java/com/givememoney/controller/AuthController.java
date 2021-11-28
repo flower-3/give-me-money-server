@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -29,7 +30,9 @@ public class AuthController {
         Cookie cookie = new Cookie("Bearer", jwtToken);
         cookie.setMaxAge(60 * 60 * 24);
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         response.addCookie(cookie);
-        response.sendRedirect(clientUri);
+        response.sendRedirect(clientUri+"?success=1");
     }
+
 }
